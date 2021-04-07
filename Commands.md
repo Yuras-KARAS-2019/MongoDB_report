@@ -43,4 +43,10 @@
 ***Для проведення множини операцій над об’єктами (модифікація, видалення) можна використовувати наступні команди:***  
 - “db.collection.name.bulkWrite([{insertOne: {“document”: {name: “David”, age: 25, birthday: “20.03.1999”}}}, 
 {deleteOne: {filter: {name: “Yura”}}}, {updateOne: {filter: {name: “Roman”}, update: {$set: {name: “Romashka”}}}}, 
-{replaceOne: {filter: {name: “”}}}]).
+{replaceOne: {filter: {name: “”}}}]).  
+***Для пошуку записів по певним полям використовують такі команди:***
+1. db.collection.name.createIndex({some field 1: "some text", some field 2: "some text"}, some field n: "some text")
+2. db.collection.name.find({$text: {$search: "some text"}}, {$score: {$meta: "textScore"}}).sort({score: {$meta: "textScore"}}) - 
+здійснює пошук об'єктів в полях яких містяться слова із "some text". Після пошуку об'єкти будуть виводитись в порядку спадання релевантності до пошукового слова.  
+Наприклад, "some text" = "жителі Києва", тоді виведуться всі об'єкти, які в "some field" мають слово "жителі" або - "Києва", 
+або - "жителі Києва" або подібні слова в аналогії з роботою пошукової системи "Google".  
