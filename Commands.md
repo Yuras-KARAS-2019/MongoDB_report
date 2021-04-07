@@ -44,6 +44,7 @@
 - “db.collection.name.bulkWrite([{insertOne: {“document”: {name: “David”, age: 25, birthday: “20.03.1999”}}}, 
 {deleteOne: {filter: {name: “Yura”}}}, {updateOne: {filter: {name: “Roman”}, update: {$set: {name: “Romashka”}}}}, 
 {replaceOne: {filter: {name: “”}}}]).  
+
 ***Для пошуку записів по певним полям використовують такі команди:***
 1. db.collection.name.createIndex({some field 1: "some text", some field 2: "some text"}, some field n: "some text")
 2. db.collection.name.find({$text: {$search: "some text"}}, {$score: {$meta: "textScore"}}).sort({score: {$meta: "textScore"}}) - 
