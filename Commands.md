@@ -34,7 +34,7 @@
 
 ***Для проведення операцій над об’єктами (модифікація, видалення) можна використовувати наступні команди:***  
 - “db.collection.name.updateOne({age: 21}, {$set: {course: 3, status: “is studying”}})” – знаходить ***перший!*** об’єкт з age: 21 і модифікує поля course: 3, status: “is studying”  
-- “db.collection.name.updateMany({age: 21}, {$set: {course: 3, status: “is studying”}})” – знаходить ***всі!
+- “db.collection.name.updateMany({age: 21}, {$set: {course: 3, status: “is studying”}})” – знаходить ***всі!***
 об’єкти з age: 21 і модифікує поля course: 3, status: “is studying”.  
 - “db.collection.name.replaceOne({age: 23}, {name: “Harry”, “last name”: ”Potter”, course: 6, “special skills”: “magic”, age: 23})” – 
 заміна першого об’єкта (в базі) із age: 23, якому надають поля: name: “Harry”, “last name”: ”Potter”, course: 6, “special skills”: “magic”, age: 23.  
