@@ -4,48 +4,78 @@
 а й вносити зміни в них: створювати, редагувати, видаляти як складові баз даних так і самі бази.  
 
 ## Для створення бази даних достатньо використати команди:  
+База даних з назвою:  
+```js
+use database_name
  ```
-1. use database_name
- ```
- - база даних  з назвою.
-```shell
-2. db.createCollection(“collection_name”)
-```
- - колекція з назвою.  
-
+Колекція з назвою:   
+```js
+db.createCollection(“collection_name”)
+``` 
 ### Для модифікації колекцій можна використовувати:  
-додати поле до колекції:
-
+Додати поле до колекції:
 ```js
 db.insertOne({some fields})
-
+```  
+Додати множинні поля до колекції:
+```js
+db.insertMany{[{}, {}, {}]}
+```  
+***Для фільтрації об’єктів можна використовувати такі команди:***  
+- Всі поля з колекції:  
+```js
+db.collection_name.find()
+```  
+- Всі об’єкти з колекції «collection.name».  
+```js
+db.collection_name.find().limit(number)
+```  
+- Всі об’єкти з колекції «collection.name» без поля id.  
+```js
+db.collection_name.find({}, {_id: 0})
+```  
+- Сортування лімітованого результату виводу по "age" та "name":  
+```js
+db.collection_name.find().sort({age: 1, name: 1}).limit(number)
+```  
+- Об’єкти, які мають поле "age" = 20 або "status" = "is studying".  
+```js
+db.collection_name.find({$or: [{age: 20}, {status: “is studying”}]})
+```  
+- Об’єкти, які мають поле "age" < 40 або "status" = "is studying".  
+```js
+db.collection_name.find($or: [{age: {$lt: 40}}, {status: “is studying”}])
+```  
+- “” – знайти об’єкти в яких присутнє ім’я “name_1” або  “name_2” та вивести їх без поля ідентифікатора.  
+```js
+db.collection_name.find({name: {$in: [“name_1”, “name_2”]}, {_id: 0}})
 ```  
 
-“db.insertMany{[{}, {}, {}]}” – додати множинні поля до колекції.  
-
-***Для фільтрації об’єктів можна використовувати такі команди:***  
-- “db.collection_name.find()” – віддає всі поля з колекції.  
-- “db.collection_name.find().limit(number)” – віддає всі об’єкти з колекції «collection.name».  
-- “db.collection_name.find({}, {_id: 0})” – віддає всі об’єкти з колекції «collection.name» без поля id.  
-- “db.collection_name.find().sort({age: 1, name: 1}).limit(number)” – сортування лімітованого результату виводу по age та name.  
-- “db.collection_name.find({$or: [{age: 20}, {status: “is studying”}]})” – знайти та вивести об’єкти, які мають поле age = 20 або status = is studying.  
-- “db.collection_name.find($or: [{age: {$lt: 40}}, {status: “is studying”}])” - знайти та вивести об’єкти, які мають поле age < 40 або status = "is studying".  
-- “db.collection_name.find({name: {$in: [“name_1”, “name_2”]}, {_id: 0}}” – знайти об’єкти в яких присутнє ім’я “name_1” або  “name_2” та вивести їх без поля ідентифікатора.  
-
 ***На місці $lt могли стояти наступні модифікатори:***
--	$lte (less than equal: “<=”).  
--	$gt (greater than: “>”).  
--	$gte (greater than equal: “>=”).  
--	$eq (equal: “==”).  
--	$ne (not equal: “!=”).  
+```js
+$lte (less than equal: “<=”).  
+$gt (greater than: “>”).  
+$gte (greater than equal: “>=”).  
+$eq (equal: “==”).  
+$ne (not equal: “!=”).
+```
 
 ***На місці $in міг стояти модифікатор $nin (не присутнє ім’я):***  
-- “db.collection_name.find({birthday: {$exists: true}}, {_id: 0})” – всі об’єкти які мають поле birthday.  
-- “db.collection_name.find({friends: {$elemMatch: {$lte: "Z"}} }, {_id: 0})” – знайти об’єкти, що містять у полі friends елементи, 
-які починаються з “Z”(код символу) або молодших символів.  
+- Всі об’єкти які мають поле birthday.  
+```js
+db.collection_name.find({birthday: {$exists: true}}, {_id: 0})
+```   
+- Об’єкти, що містять у полі friends елементи, які починаються з “Z”(код символу) або молодших символів.  
+```js
+db.collection_name.find({friends: {$elemMatch: {$lte: "Z"}} }, {_id: 0})
+```   
+
 
 ***Для проведення операцій над об’єктами (модифікація, видалення) можна використовувати наступні команди:***  
-- “db.collection_name.updateOne({age: 21}, {$set: {course: 3, status: “is studying”}})” – знаходить ***перший!*** об’єкт з age: 21 і модифікує поля course: 3, status: “is studying”  
+- Знаходить ***перший!*** об’єкт з age: 21 і модифікує поля course: 3, status: “is studying”:  
+```js:
+db.collection_name.updateOne({age: 21}, {$set: {course: 3, status: “is studying”}})
+```   
 - “db.collection_name.updateMany({age: 21}, {$set: {course: 3, status: “is studying”}})” – знаходить ***всі!***
 об’єкти з age: 21 і модифікує поля course: 3, status: “is studying”.  
 - “db.collection_name.replaceOne({age: 23}, {name: “Harry”, “last name”: ”Potter”, course: 6, “special skills”: “magic”, age: 23})” – 
